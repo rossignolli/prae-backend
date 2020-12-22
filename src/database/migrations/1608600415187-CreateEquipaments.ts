@@ -19,6 +19,10 @@ export class CreateEquipaments1608600415187 implements MigrationInterface {
                         isNullable: false,
                     },
                     {
+                        name: 'description',
+                        type: 'varchar',
+                    },
+                    {
                         name: 'created_at',
                         type: 'timestamp',
                         default: 'now()',
