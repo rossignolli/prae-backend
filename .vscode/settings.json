@@ -1,0 +1,49 @@
+{
+    "workbench.colorTheme": "Omni",
+    "workbench.iconTheme": "material-icon-theme",
+    "window.zoomLevel": 1,
+    "editor.formatOnSave": true,
+    "prettier.requireConfig": true,
+    "[javascript]": {
+        "editor.codeActionsOnSave": {
+            "source.fixAll.eslint": true,
+        },
+    },
+    "[javascriptreact]": {
+        "editor.codeActionsOnSave": {
+            "source.fixAll.eslint": true,
+        },
+    },
+    "[typescriptreact]": {
+        "editor.codeActionsOnSave": {
+            "source.fixAll.eslint": true,
+        },
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+    },
+    "editor.fontFamily": "Fira Code",
+    "editor.fontLigatures": true,
+    "editor.fontSize": 14,
+    "editor.lineHeight": 0,
+    "explorer.compactFolders": false,
+    "workbench.editor.labelFormat": "short",
+    "extensions.ignoreRecommendations": true,
+    "[typescript]": {
+        "editor.codeActionsOnSave": {
+            "source.fixAll.eslint": true,
+        },
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        
+    },
+    "emmet.syntaxProfiles": {"javascript": "jsx"},
+    "emmet.includeLanguages": {
+        "javascript": "javascriptreact"
+    },
+    "terminal.integrated.shell.windows": "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+    "javascript.updateImportsOnFileMove.enabled": "always",
+    "git.enableSmartCommit": true,
+    "gitlens.views.repositories.files.layout": "tree",
+    "cSpell.language": ",pt,pt_BR",
+    "cSpell.userWords": [
+        "Rotacionar"
+    ],
+}
