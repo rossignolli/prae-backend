@@ -6,7 +6,11 @@ import {
     PrimaryGeneratedColumn,
     CreateDateColumn,
     UpdateDateColumn,
+    JoinColumn,
+    OneToMany,
 } from 'typeorm';
+
+import Image from './Images';
 
 @Entity('equipaments')
 class Equipament {
@@ -27,6 +31,12 @@ class Equipament {
 
     @Column()
     expired: boolean;
+
+    @OneToMany(() => Image, image => image.images, {
+        cascade: ['insert', 'update'],
+    })
+    @JoinColumn({ name: 'equipament_id' })
+    images: Image[];
 }
 
 export default Equipament;
