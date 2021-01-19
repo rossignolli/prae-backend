@@ -1,4 +1,9 @@
-import { MigrationInterface, QueryRunner, Table } from 'typeorm';
+import {
+    MigrationInterface,
+    QueryRunner,
+    Table,
+    TableForeignKey,
+} from 'typeorm';
 
 export class CreateEquipaments1608600415187 implements MigrationInterface {
     public async up(queryRunner: QueryRunner): Promise<void> {
@@ -14,6 +19,10 @@ export class CreateEquipaments1608600415187 implements MigrationInterface {
                         default: 'uuid_generate_v4()',
                     },
                     {
+                        name: 'technician_id',
+                        type: 'uuid',
+                    },
+                    {
                         name: 'name',
                         type: 'varchar',
                         isNullable: false,
@@ -21,6 +30,7 @@ export class CreateEquipaments1608600415187 implements MigrationInterface {
                     {
                         name: 'description',
                         type: 'varchar',
+                        isNullable: false,
                     },
                     {
                         name: 'created_at',
@@ -33,11 +43,57 @@ export class CreateEquipaments1608600415187 implements MigrationInterface {
                         default: 'now()',
                     },
                     {
-                        name: 'expired',
+                        name: 'monitor',
+                        type: 'boolean',
+                        default: true,
+                        isNullable: false,
+                    },
+                    {
+                        name: 'critical',
                         type: 'boolean',
                         default: false,
+                        isNullable: false,
+                    },
+                    {
+                        name: 'levelToManage',
+                        type: 'int',
+                        default: 0,
+                        isNullable: false,
+                    },
+                    {
+                        name: 'dateStartedMonitoring',
+                        type: 'timestamp with time zone',
+                        isNullable: true,
+                    },
+                    {
+                        name: 'dateOfExpiration',
+                        type: 'timestamp with time zone',
+                        isNullable: true,
+                    },
+                    {
+                        name: 'dateLastStopMonitor',
+                        type: 'timestamp with time zone',
+                        isNullable: true,
+                    },
+                    {
+                        name: 'timesStopped',
+                        type: 'int',
+                        default: 0,
+                        isNullable: true,
                     },
                 ],
+            }),
+        );
+
+        await queryRunner.createForeignKey(
+            'equipaments',
+            new TableForeignKey({
+                name: 'EquipamentTechnician',
+                columnNames: ['technician_id'],
+                referencedColumnNames: ['id'],
+                referencedTableName: 'users',
+                onDelete: 'SET NULL',
+                onUpdate: 'CASCADE',
             }),
         );
     }

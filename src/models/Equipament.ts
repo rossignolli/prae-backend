@@ -7,10 +7,12 @@ import {
     CreateDateColumn,
     UpdateDateColumn,
     JoinColumn,
+    ManyToOne,
     OneToMany,
 } from 'typeorm';
 
 import Image from './Images';
+import User from './User';
 
 @Entity('equipaments')
 class Equipament {
@@ -30,13 +32,40 @@ class Equipament {
     updated_at: Date;
 
     @Column()
-    expired: boolean;
+    monitor: boolean;
+
+    @Column()
+    critical: boolean;
+
+    @Column()
+    levelToManage: number;
+
+    @Column()
+    dateStartedMonitoring: Date;
+
+    @Column()
+    dateOfExpiration: Date;
+
+    @Column()
+    dateLastStopMonitor: Date;
+
+    @Column()
+    timesStopped: number;
+
+    @Column()
+    technician_id: string;
 
     @OneToMany(() => Image, image => image.images, {
         cascade: ['insert', 'update'],
     })
     @JoinColumn({ name: 'equipament_id' })
     images: Image[];
+
+    /// relação de 1 equipamento poder ter 1 técnico
+
+    @ManyToOne(() => User, { eager: true })
+    @JoinColumn({ name: 'technician_id' })
+    technician: string;
 }
 
 export default Equipament;

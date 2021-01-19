@@ -1,3 +1,5 @@
 node_modules
 tmp/*
 !tmp/.gitkeep
+requisitos.txt
+.env

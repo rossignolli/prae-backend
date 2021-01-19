@@ -4,8 +4,11 @@ import { Router } from 'express';
 import Equipament from '../models/Equipament';
 import { getRepository } from 'typeorm';
 import CreateEquipamentService from '../services/CreateEquipamentService';
+import ensureAuthenticated from '../middlewares/ensureAuthenticated';
 
 const equipamentsRouter = Router();
+
+equipamentsRouter.use(ensureAuthenticated);
 
 equipamentsRouter.get('/', async (request, response) => {
     const equipamentsRepository = getRepository(Equipament);
@@ -14,7 +17,14 @@ equipamentsRouter.get('/', async (request, response) => {
 });
 
 equipamentsRouter.post('/', async (request, response) => {
-    const { name, description } = request.body;
+    const {
+        name,
+        description,
+        technician_id,
+        monitor,
+        critical,
+        levelToManage,
+    } = request.body;
 
     // Transformação de dados para aplicação usar, pode ser deixado na rota
 
@@ -23,6 +33,10 @@ equipamentsRouter.post('/', async (request, response) => {
     const equipament = await createEquipamentService.execute({
         name,
         description,
+        technician_id,
+        monitor,
+        critical,
+        levelToManage,
     });
     return response.json(equipament);
 });
