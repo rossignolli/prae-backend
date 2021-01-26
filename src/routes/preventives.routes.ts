@@ -41,6 +41,7 @@ preventivesRouter.post('/monitor', async (request, response) => {
             equipament.dateOfExpiration,
             new Date(),
         );
+
         const calcDateBusinessDays = differenceInBusinessDays(
             equipament.dateOfExpiration,
             new Date(),

@@ -63,9 +63,13 @@ class Equipament {
 
     /// relação de 1 equipamento poder ter 1 técnico
 
-    @ManyToOne(() => User, { eager: true })
+    @ManyToOne(() => User)
     @JoinColumn({ name: 'technician_id' })
     technician: string;
+
+    expired: boolean;
+
+    daysExpired: boolean;
 }
 
 export default Equipament;

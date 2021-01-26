@@ -20,14 +20,14 @@ class Preventive {
     @Column()
     equipament_id: string;
 
-    @ManyToOne(() => Equipament, { eager: true })
+    @ManyToOne(() => Equipament)
     @JoinColumn({ name: 'equipament_id' })
     equipament: Equipament;
 
     @Column()
     technician_id: string;
 
-    @ManyToOne(() => User, { eager: true })
+    @ManyToOne(() => User)
     @JoinColumn({ name: 'technician_id' })
     technician: string;
 

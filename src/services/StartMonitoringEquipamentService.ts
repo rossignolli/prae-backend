@@ -3,7 +3,7 @@ import Equipament from '../models/Equipament';
 import { hash } from 'bcryptjs';
 
 interface RequestMonitorStarting {
-    id: any;
+    id: string;
     date: string;
 }
 
@@ -31,20 +31,9 @@ class StartMonitoringService {
 
         equipament.monitor = true;
         equipament.dateStartedMonitoring = new Date();
-
         equipament.dateOfExpiration = parseISO(date);
 
         await equipamentRepository.save(equipament);
-
-        // const hashedPassword = await hash(password, 10);
-
-        // const user = usersRepository.create({
-        //     name,
-        //     email,
-        //     password: hashedPassword,
-        // });
-
-        // await usersRepository.save(user);
 
         return equipament;
     }
