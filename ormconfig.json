@@ -6,7 +6,7 @@
     "username": "edetukwtdqsrxi",
     "password": "f711045e0cee9f871e9bb5721bc1f0c10b04ae4b2de7a556f75f4ffaae9104f0",
     "database": "d2o4jl4gfgondb",
-    "migrations": ["./dist/src/database/migrations/*.js"],
+    "migrations": ["./dist/database/migrations/*.js"],
     "entities": ["./dist/models/*.js"],
     "cli": {
         "migrationsDir": "./dist/src/database/migrations"
