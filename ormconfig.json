@@ -1,13 +1,11 @@
 {
     "type": "postgres",
-    "host": "localhost",
-    "port": 5432,
-    "username": "postgres",
-    "password": "mypassword",
-    "database": "prae",
-    "migrations": ["./src/database/migrations/*.ts"],
-    "entities": ["./src/models/*.ts"],
+    "url": "postgres://edetukwtdqsrxi:f711045e0cee9f871e9bb5721bc1f0c10b04ae4b2de7a556f75f4ffaae9104f0@ec2-52-205-61-60.compute-1.amazonaws.com:5432/d2o4jl4gfgondb",
+    "synchronize": false,
+    "migrations": ["./dist/src/database/migrations/*.js"],
+    "entities": ["./dist/models/*.js"],
     "cli": {
-        "migrationsDir": "./src/database/migrations"
+        "migrationsDir": "./dist/src/database/migrations"
     }
 }
+
