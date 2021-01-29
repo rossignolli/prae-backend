@@ -1,4 +1,4 @@
- {
+{
     "type": "postgres",
     "host": "ec2-52-205-61-60.compute-1.amazonaws.com",
     "port": 5432,
@@ -8,6 +8,7 @@
     "database": "d2o4jl4gfgondb",
     "migrations": ["./dist/database/migrations/*.js"],
     "entities": ["./dist/models/*.js"],
+    "synchronize": true,
     "cli": {
         "migrationsDir": "./dist/src/database/migrations"
     }
