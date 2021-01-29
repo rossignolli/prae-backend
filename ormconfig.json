@@ -2,7 +2,7 @@
     "type": "postgres",
     "host": "ec2-52-205-61-60.compute-1.amazonaws.com",
     "port": 5432,
-    "ssl": { "rejectUnauthorized": false },
+    "ssl": true,
     "username": "edetukwtdqsrxi",
     "password": "f711045e0cee9f871e9bb5721bc1f0c10b04ae4b2de7a556f75f4ffaae9104f0",
     "database": "d2o4jl4gfgondb",
