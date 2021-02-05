@@ -8,6 +8,7 @@ interface RequestEquipamentCreation {
     monitor: boolean;
     critical: boolean;
     levelToManage: number;
+    category_id: string;
 }
 
 class CreateEquipamentService {
@@ -18,6 +19,7 @@ class CreateEquipamentService {
         monitor,
         critical,
         levelToManage,
+        category_id,
     }: RequestEquipamentCreation): Promise<Equipament> {
         const equipamentsRepository = getRepository(Equipament);
 
@@ -28,6 +30,7 @@ class CreateEquipamentService {
             monitor,
             critical,
             levelToManage,
+            category_id,
         });
 
         await equipamentsRepository.save(equipament);

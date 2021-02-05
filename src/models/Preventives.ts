@@ -1,5 +1,4 @@
 /* eslint-disable prettier/prettier */
-import { uuid } from 'uuidv4';
 import {
     Column,
     Entity,
@@ -7,10 +6,13 @@ import {
     CreateDateColumn,
     JoinColumn,
     ManyToOne,
+    OneToMany,
 } from 'typeorm';
 
 import User from './User';
 import Equipament from './Equipament';
+import Job from './Job';
+import JobExecution from './JobExecution';
 
 @Entity('preventives')
 class Preventive {
@@ -20,7 +22,7 @@ class Preventive {
     @Column()
     equipament_id: string;
 
-    @ManyToOne(() => Equipament)
+    @ManyToOne(() => Equipament, { eager: true })
     @JoinColumn({ name: 'equipament_id' })
     equipament: Equipament;
 
@@ -34,8 +36,17 @@ class Preventive {
     @CreateDateColumn()
     created_at: Date;
 
-    @Column()
-    jobs: string;
+    @OneToMany(() => JobExecution, JobExecution => JobExecution.preventives, {
+        cascade: ['insert', 'update'],
+    })
+    @JoinColumn({ name: 'preventive_id' })
+    jobs: JobExecution[];
+
+    // @OneToMany(() => Job, job => job.preventives, {
+    //     cascade: ['insert', 'update'],
+    // })
+    // @JoinColumn({ name: 'preventive_id' })
+    // jobs: Job[];
 
     @Column()
     isCorrective: boolean;

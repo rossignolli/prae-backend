@@ -22,7 +22,9 @@ preventivesRouter.use(ensureAuthenticated);
 
 preventivesRouter.get('/', async (request, response) => {
     const preventivesRepository = getRepository(Preventive);
-    const preventives = await preventivesRepository.find();
+    const preventives = await preventivesRepository.find({
+        relations: ['jobs'],
+    });
     return response.json(preventives);
 });
 

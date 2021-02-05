@@ -33,6 +33,6 @@ app.use(
     },
 );
 
-app.listen(process.env.PORT || 5000, () => {
+app.listen(process.env.PORT || 3333, () => {
     console.log('Server started on port 3333!');
 });

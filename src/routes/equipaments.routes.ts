@@ -36,6 +36,7 @@ equipamentsRouter.post('/', async (request, response) => {
         monitor,
         critical,
         levelToManage,
+        category_id,
     } = request.body;
 
     // Transformação de dados para aplicação usar, pode ser deixado na rota
@@ -49,6 +50,7 @@ equipamentsRouter.post('/', async (request, response) => {
         monitor,
         critical,
         levelToManage,
+        category_id,
     });
     return response.json(equipament);
 });

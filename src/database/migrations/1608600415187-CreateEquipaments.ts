@@ -23,6 +23,10 @@ export class CreateEquipaments1608600415187 implements MigrationInterface {
                         type: 'uuid',
                     },
                     {
+                        name: 'category_id',
+                        type: 'uuid',
+                    },
+                    {
                         name: 'name',
                         type: 'varchar',
                         isNullable: false,

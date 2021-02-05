@@ -5,11 +5,11 @@ import {
     TableForeignKey,
 } from 'typeorm';
 
-export class Preventives1610806546687 implements MigrationInterface {
+export class CreateJobsTable1612211409599 implements MigrationInterface {
     public async up(queryRunner: QueryRunner): Promise<void> {
         queryRunner.createTable(
             new Table({
-                name: 'preventives',
+                name: 'jobs',
                 columns: [
                     {
                         name: 'id',
@@ -19,11 +19,21 @@ export class Preventives1610806546687 implements MigrationInterface {
                         default: 'uuid_generate_v4()',
                     },
                     {
-                        name: 'equipament_id',
-                        type: 'uuid',
+                        name: 'name',
+                        type: 'varchar',
+                    },
+                    {
+                        name: 'description',
+                        type: 'varchar',
                     },
                     {
                         name: 'created_at',
+                        type: 'timestamp',
+                        default: 'now()',
+                        isNullable: false,
+                    },
+                    {
+                        name: 'updated_at',
                         type: 'timestamp',
                         default: 'now()',
                         isNullable: false,
@@ -33,33 +43,25 @@ export class Preventives1610806546687 implements MigrationInterface {
                         type: 'uuid',
                     },
                     {
-                        name: 'isCorrective',
-                        type: 'boolean',
-                        isNullable: false,
+                        name: 'category_id',
+                        type: 'uuid',
+                    },
+                    {
+                        name: 'supply_id',
+                        type: 'uuid',
+                        isNullable: true,
                     },
                 ],
             }),
         );
 
         await queryRunner.createForeignKey(
-            'preventives',
+            'jobs',
             new TableForeignKey({
-                name: 'PreventivesEquipament',
-                columnNames: ['equipament_id'],
+                name: 'CategoriesJobs',
+                columnNames: ['category_id'],
                 referencedColumnNames: ['id'],
-                referencedTableName: 'equipaments',
-                onDelete: 'SET NULL',
-                onUpdate: 'CASCADE',
-            }),
-        );
-
-        await queryRunner.createForeignKey(
-            'preventives',
-            new TableForeignKey({
-                name: 'PreventivesTecnician',
-                columnNames: ['technician_id'],
-                referencedColumnNames: ['id'],
-                referencedTableName: 'users',
+                referencedTableName: 'categories',
                 onDelete: 'SET NULL',
                 onUpdate: 'CASCADE',
             }),
@@ -67,6 +69,6 @@ export class Preventives1610806546687 implements MigrationInterface {
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
-        await queryRunner.dropTable('preventives');
+        await queryRunner.dropTable('jobs');
     }
 }

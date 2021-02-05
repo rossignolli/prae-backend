@@ -1,5 +1,4 @@
 /* eslint-disable prettier/prettier */
-import { uuid } from 'uuidv4';
 import {
     Column,
     Entity,
@@ -10,7 +9,7 @@ import {
     ManyToOne,
     OneToMany,
 } from 'typeorm';
-
+import Category from './Category';
 import Image from './Images';
 import User from './User';
 
@@ -55,6 +54,9 @@ class Equipament {
     @Column()
     technician_id: string;
 
+    @Column()
+    category_id: string;
+
     @OneToMany(() => Image, image => image.images, {
         cascade: ['insert', 'update'],
     })
@@ -66,6 +68,10 @@ class Equipament {
     @ManyToOne(() => User)
     @JoinColumn({ name: 'technician_id' })
     technician: string;
+
+    @ManyToOne(() => Category, { eager: true })
+    @JoinColumn({ name: 'category_id' })
+    category: string;
 
     expired: boolean;
 

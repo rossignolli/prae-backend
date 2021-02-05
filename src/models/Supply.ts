@@ -1,34 +1,35 @@
 /* eslint-disable prettier/prettier */
+import { uuid } from 'uuidv4';
 import {
     Column,
     Entity,
     PrimaryGeneratedColumn,
     CreateDateColumn,
     UpdateDateColumn,
-    ManyToOne,
     JoinColumn,
+    OneToOne,
 } from 'typeorm';
+import Job from './Job';
 
-import User from './User';
-
-@Entity('appointments')
-class Appointment {
+@Entity('supplies')
+class Supply {
     @PrimaryGeneratedColumn('uuid')
     id: string;
 
     @Column()
-    provider_id: string;
+    name: string;
 
-    @ManyToOne(() => User)
-    @JoinColumn({ name: 'provider_id' })
-    @Column('time with time zone')
-    date: Date;
+    @Column()
+    pricePerJob: number;
 
     @CreateDateColumn()
     created_at: Date;
 
     @UpdateDateColumn()
     updated_at: Date;
+
+    @Column()
+    technician_id: string;
 }
 
-export default Appointment;
+export default Supply;

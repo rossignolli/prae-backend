@@ -1,5 +1,4 @@
 /* eslint-disable prettier/prettier */
-import { uuid } from 'uuidv4';
 import {
     Column,
     Entity,
@@ -23,8 +22,8 @@ class User {
     @Column()
     email: string;
 
-    // @Column()
-    // level: number;
+    @Column()
+    level: number;
 
     @Column()
     avatar: string;
