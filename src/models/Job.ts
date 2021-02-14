@@ -13,6 +13,8 @@ import {
 
 import Supply from './Supply';
 import Preventive from './Preventives';
+import User from './User';
+import Category from './Category';
 
 @Entity('jobs')
 class Job {
@@ -35,13 +37,18 @@ class Job {
     technician_id: string;
 
     @Column()
-    preventive_id: string;
-
-    @Column()
     category_id: string;
 
     @Column()
     supply_id: string;
+
+    @ManyToOne(() => Category, { eager: true })
+    @JoinColumn({ name: 'category_id' })
+    category: string;
+
+    @ManyToOne(() => User, { eager: true })
+    @JoinColumn({ name: 'technician_id' })
+    user: string;
 
     @ManyToOne(() => Supply, { eager: true })
     @JoinColumn({ name: 'supply_id' })

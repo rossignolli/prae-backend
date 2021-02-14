@@ -11,6 +11,18 @@ const equipamentsRouter = Router();
 
 equipamentsRouter.use(ensureAuthenticated);
 
+equipamentsRouter.get('/details/:id', async (request, response) => {
+    const { id } = request.params;
+
+    console.log(id);
+
+    const equipamentsRepository = getRepository(Equipament);
+
+    const equipament = await equipamentsRepository.findOneOrFail({ id });
+
+    return response.json(equipament);
+});
+
 equipamentsRouter.get('/', async (request, response) => {
     const equipamentsRepository = getRepository(Equipament);
 
