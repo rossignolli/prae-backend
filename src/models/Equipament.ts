@@ -65,7 +65,7 @@ class Equipament {
 
     /// relação de 1 equipamento poder ter 1 técnico
 
-    @ManyToOne(() => User)
+    @ManyToOne(() => User, { eager: true })
     @JoinColumn({ name: 'technician_id' })
     technician: string;
 

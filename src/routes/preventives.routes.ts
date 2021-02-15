@@ -30,8 +30,9 @@ preventivesRouter.get('/', async (request, response) => {
 
 preventivesRouter.post('/monitor', async (request, response) => {
     try {
-        const { date } = request.body;
-        const { equipamentId } = request.query;
+        const { date, equipamentId } = request.body;
+
+        console.log('monitor triggered');
 
         const createMonirtoringService = new StartMonitoringService();
         const equipament = await createMonirtoringService.execute({
