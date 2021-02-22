@@ -6,6 +6,7 @@ import equipamentsRouter from './equipaments.routes';
 import suppliesRouter from './supplies.routes';
 import jobsRouter from './jobs.routes';
 import categories from './category.routes';
+import brands from './brand.routes';
 
 const routes = Router();
 
@@ -16,5 +17,6 @@ routes.use('/sessions', sessionsRouter);
 routes.use('/supplies', suppliesRouter);
 routes.use('/jobs', jobsRouter);
 routes.use('/categories', categories);
+routes.use('/brands', brands);
 
 export default routes;
