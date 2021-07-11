@@ -27,7 +27,9 @@ equipamentsRouter.get('/details/:id', async (request, response) => {
 equipamentsRouter.get('/', async (request, response) => {
     const equipamentsRepository = getRepository(Equipament);
 
-    const equipaments = await equipamentsRepository.find();
+    const equipaments = await equipamentsRepository.find({
+        relations: ['images'],
+    });
 
     equipaments.forEach(equipament => {
         equipament.expired = isPast(equipament.dateOfExpiration);
