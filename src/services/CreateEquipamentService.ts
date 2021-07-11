@@ -1,6 +1,11 @@
 import { getRepository } from 'typeorm';
 import Equipament from '../models/Equipament';
 
+type ImagesType = {
+    id: string;
+    path: string;
+};
+
 interface RequestEquipamentCreation {
     technician_id: string;
     name: string;
@@ -9,6 +14,7 @@ interface RequestEquipamentCreation {
     critical: boolean;
     levelToManage: number;
     category_id: string;
+    images: Array<ImagesType>;
 }
 
 class CreateEquipamentService {
@@ -20,6 +26,7 @@ class CreateEquipamentService {
         critical,
         levelToManage,
         category_id,
+        images,
     }: RequestEquipamentCreation): Promise<Equipament> {
         const equipamentsRepository = getRepository(Equipament);
 
@@ -29,6 +36,7 @@ class CreateEquipamentService {
             description,
             monitor,
             critical,
+            images,
             levelToManage,
             category_id,
         });

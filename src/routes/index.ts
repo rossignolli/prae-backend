@@ -1,4 +1,4 @@
-import { Router } from 'express';
+import express, { Router } from 'express';
 import preventivesRouter from './preventives.routes';
 import sessionsRouter from '../routes/sessions.routes';
 import usersRouter from './users.routes';
@@ -7,6 +7,7 @@ import suppliesRouter from './supplies.routes';
 import jobsRouter from './jobs.routes';
 import categories from './category.routes';
 import brands from './brand.routes';
+import path from 'path';
 
 const routes = Router();
 

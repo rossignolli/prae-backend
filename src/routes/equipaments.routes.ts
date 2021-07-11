@@ -6,8 +6,11 @@ import { getRepository } from 'typeorm';
 import CreateEquipamentService from '../services/CreateEquipamentService';
 import ensureAuthenticated from '../middlewares/ensureAuthenticated';
 import { differenceInBusinessDays, differenceInDays, isPast } from 'date-fns';
+import multer from 'multer';
+import uploadConfig from '../config/upload';
 
 const equipamentsRouter = Router();
+const upload = multer(uploadConfig);
 
 equipamentsRouter.use(ensureAuthenticated);
 
@@ -38,31 +41,32 @@ equipamentsRouter.get('/', async (request, response) => {
     return response.json(equipaments);
 });
 
-equipamentsRouter.post('/', async (request, response) => {
-    const {
-        name,
-        description,
-        technician_id,
-        monitor,
-        critical,
-        levelToManage,
-        category_id,
-    } = request.body;
+equipamentsRouter.post(
+    '/',
+    upload.array('images'),
+    async (request, response) => {
+        const { data } = request.body;
 
-    // Transformação de dados para aplicação usar, pode ser deixado na rota
+        // Transformação de dados para aplicação usar, pode ser deixado na rota
 
-    const createEquipamentService = new CreateEquipamentService();
+        const requestImages = request.files as Express.Multer.File[];
 
-    const equipament = await createEquipamentService.execute({
-        name,
-        description,
-        technician_id,
-        monitor,
-        critical,
-        levelToManage,
-        category_id,
-    });
-    return response.json(equipament);
-});
+        const images = requestImages.map(image => {
+            return { path: image.filename };
+        });
+
+        const parsedEquipament = JSON.parse(data);
+
+        parsedEquipament.images = images;
+
+        const createEquipamentService = new CreateEquipamentService();
+
+        const equipament = await createEquipamentService.execute(
+            parsedEquipament,
+        );
+
+        return response.json(equipament);
+    },
+);
 
 export default equipamentsRouter;
