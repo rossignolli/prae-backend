@@ -7,8 +7,6 @@ import suppliesRouter from './supplies.routes';
 import jobsRouter from './jobs.routes';
 import categories from './category.routes';
 import brands from './brand.routes';
-import path from 'path';
-
 const routes = Router();
 
 routes.use('/preventives', preventivesRouter);

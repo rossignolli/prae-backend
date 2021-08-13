@@ -6,33 +6,29 @@ interface RequestSupplyCreation {
     name: string;
     id: string;
     description: string;
-    avatar: string;
-    technician_id: string;
 }
 
 class UpdateCategorytService {
     public async execute({
         name,
-        avatar,
         id,
         description,
-        technician_id,
     }: RequestSupplyCreation): Promise<Category> {
         const categoriesRepository = getRepository(Category);
-        const categoryToupdate = await categoriesRepository.findOne({ id });
+        const category = await categoriesRepository.findOneOrFail({
+            id,
+        });
 
-        if (categoryToupdate) {
+        if (!category) {
             new AppError('Equipament not founded.');
         }
 
-        const category = categoriesRepository.save({
-            name,
-            description,
-            avatar,
-            technician_id,
-        });
+        category.name = name;
+        category.description = description;
 
-        return category;
+        const updatedCategory = await categoriesRepository.save(category);
+
+        return updatedCategory;
     }
 }
 

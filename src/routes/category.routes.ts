@@ -25,8 +25,8 @@ categoryRouter.delete('/:id', async (request, response) => {
 
     console.log(categoryToDelete);
 
-    if (categoryToDelete) {
-        return response.status(204);
+    if (!categoryToDelete.length) {
+        return response.status(200).send({ message: 'Category not Found' });
     }
 
     categoryRepository.remove(categoryToDelete);
@@ -55,14 +55,12 @@ categoryRouter.post('/', async (request, response) => {
 categoryRouter.put('/:id', async (request, response) => {
     try {
         const { id } = request.params;
-        const { name, avatar, technician_id, description } = request.body;
+        const { name, description } = request.body;
 
         const CreateCategoriesServices = new UpdateCategorytService();
         const category = await CreateCategoriesServices.execute({
             id,
             name,
-            avatar,
-            technician_id,
             description,
         });
 
