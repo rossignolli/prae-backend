@@ -1,11 +1,12 @@
 /* eslint-disable import/extensions */
 import { Router } from 'express';
 
-import CreateCategoriesService from '../services/CreateCategoryService';
+import CreateCategoriesService from '../services/CategoriesService/CreateCategoryService';
 
 import { getRepository } from 'typeorm';
 import ensureAuthenticated from '../middlewares/ensureAuthenticated';
 import Category from '../models/Category';
+import UpdateCategorytService from '../services/CategoriesService/UpdateCategoryService';
 
 const categoryRouter = Router();
 
@@ -17,12 +18,48 @@ categoryRouter.get('/', async (request, response) => {
     return response.json(categories);
 });
 
+categoryRouter.delete('/:id', async (request, response) => {
+    const { id } = request.params;
+    const categoryRepository = getRepository(Category);
+    const categoryToDelete = await categoryRepository.find({ id });
+
+    console.log(categoryToDelete);
+
+    if (categoryToDelete) {
+        return response.status(204);
+    }
+
+    categoryRepository.remove(categoryToDelete);
+
+    return response.status(200).json({ ok: true });
+});
+
 categoryRouter.post('/', async (request, response) => {
     try {
         const { name, avatar, technician_id, description } = request.body;
 
         const CreateCategoriesServices = new CreateCategoriesService();
         const category = await CreateCategoriesServices.execute({
+            name,
+            avatar,
+            technician_id,
+            description,
+        });
+
+        return response.json(category);
+    } catch (err) {
+        return response.status(400).json({ error: err.message });
+    }
+});
+
+categoryRouter.put('/:id', async (request, response) => {
+    try {
+        const { id } = request.params;
+        const { name, avatar, technician_id, description } = request.body;
+
+        const CreateCategoriesServices = new UpdateCategorytService();
+        const category = await CreateCategoriesServices.execute({
+            id,
             name,
             avatar,
             technician_id,
