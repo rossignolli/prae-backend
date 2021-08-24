@@ -2,11 +2,12 @@
 import { Router } from 'express';
 
 import CreateCategoriesService from '../services/CategoriesService/CreateCategoryService';
+import UpdateCategorytService from '../services/CategoriesService/UpdateCategoryService';
+import ListByIdCategorytService from '../services/CategoriesService/ListCategoryServiceById';
 
 import { getRepository } from 'typeorm';
 import ensureAuthenticated from '../middlewares/ensureAuthenticated';
 import Category from '../models/Category';
-import UpdateCategorytService from '../services/CategoriesService/UpdateCategoryService';
 
 const categoryRouter = Router();
 
@@ -22,8 +23,6 @@ categoryRouter.delete('/:id', async (request, response) => {
     const { id } = request.params;
     const categoryRepository = getRepository(Category);
     const categoryToDelete = await categoryRepository.find({ id });
-
-    console.log(categoryToDelete);
 
     if (!categoryToDelete.length) {
         return response.status(200).send({ message: 'Category not Found' });
@@ -45,6 +44,19 @@ categoryRouter.post('/', async (request, response) => {
             technician_id,
             description,
         });
+
+        return response.json(category);
+    } catch (err) {
+        return response.status(400).json({ error: err.message });
+    }
+});
+
+categoryRouter.get('/details/:id', async (request, response) => {
+    try {
+        const { id } = request.params;
+
+        const ListCategoriesServices = new ListByIdCategorytService();
+        const category = await ListCategoriesServices.execute({ id });
 
         return response.json(category);
     } catch (err) {

@@ -1,6 +1,6 @@
 import { getRepository } from 'typeorm';
-import AppError from '../errors/AppError';
-import Supply from '../models/Supply';
+import AppError from '../../errors/AppError';
+import Supply from '../../models/Supply';
 
 interface RequestSupplyCreation {
     name: string;
