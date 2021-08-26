@@ -29,7 +29,7 @@ brandRouter.get('/details/:id', async (request, response) => {
     return response.json(brand);
 });
 
-brandRouter.post('/update/:id', async (request, response) => {
+brandRouter.post('/:id', async (request, response) => {
     const { id } = request.params;
     const { name, description } = request.body;
 
@@ -51,7 +51,7 @@ brandRouter.post('/delete/:id', async (request, response) => {
     const brandRepository = getRepository(Brand);
     await brandRepository.delete({ id });
 
-    return response.status(201).json({ sucess: 'Deletado com sucesso' });
+    return response.status(201).json({ ok: 'true' });
 });
 
 brandRouter.post('/', async (request, response) => {
