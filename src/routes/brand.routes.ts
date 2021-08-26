@@ -51,7 +51,7 @@ brandRouter.post('/delete/:id', async (request, response) => {
     const brandRepository = getRepository(Brand);
     await brandRepository.delete({ id });
 
-    return response.status(201).json({ ok: 'true' });
+    return response.status(201).json({ ok: 'true.' });
 });
 
 brandRouter.post('/', async (request, response) => {
