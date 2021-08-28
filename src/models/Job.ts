@@ -7,12 +7,9 @@ import {
     UpdateDateColumn,
     ManyToOne,
     JoinColumn,
-    OneToOne,
-    OneToMany,
 } from 'typeorm';
 
 import Supply from './Supply';
-import Preventive from './Preventives';
 import User from './User';
 import Category from './Category';
 
@@ -53,10 +50,6 @@ class Job {
     @ManyToOne(() => Supply, { eager: true })
     @JoinColumn({ name: 'supply_id' })
     supply: string;
-
-    // @ManyToOne(() => Preventive, preventive => preventive.jobs)
-    // @JoinColumn({ name: 'preventives_id' })
-    // preventives: Preventive;
 }
 
 export default Job;

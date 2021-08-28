@@ -5,7 +5,6 @@ import createExecutionServices from '../services/CreateExecutionService';
 
 import { getRepository } from 'typeorm';
 import ensureAuthenticated from '../middlewares/ensureAuthenticated';
-import ExecutionJob from '../models/JobExecution';
 import Job from '../models/Job';
 
 const jobsRouter = Router();
@@ -18,10 +17,11 @@ jobsRouter.get('/', async (request, response) => {
     return response.json(jobs);
 });
 
-jobsRouter.get('/execute', async (request, response) => {
-    const executionsRepository = getRepository(ExecutionJob);
-    const executions = await executionsRepository.find();
-    return response.json(executions);
+jobsRouter.get('/details/:id', async (request, response) => {
+    const { id } = request.params;
+    const job = getRepository(Job);
+    const jobs = await job.findOneOrFail({ id });
+    return response.json(jobs);
 });
 
 jobsRouter.post('/', async (request, response) => {
@@ -48,20 +48,32 @@ jobsRouter.post('/', async (request, response) => {
     }
 });
 
-jobsRouter.post('/execute', async (request, response) => {
-    try {
-        const { technician_id, job_id, preventive_id } = request.body;
-        const CreateExecutionServices = new createExecutionServices();
-        const executionJob = await CreateExecutionServices.execute({
-            preventive_id,
-            job_id,
-            technician_id,
-        });
+jobsRouter.delete('/:id', async (request, response) => {
+    const { id } = request.params;
 
-        return response.json(executionJob);
-    } catch (err) {
-        return response.status(400).json({ error: err.message });
-    }
+    const jobsRepository = getRepository(Job);
+    await jobsRepository.delete({ id });
+
+    return response.status(201).json({ ok: 'true.' });
+});
+
+jobsRouter.put('/:id', async (request, response) => {
+    const { id } = request.params;
+    const { name, description, category_id, supply_id } = request.body;
+
+    const jobsRepository = getRepository(Job);
+    const job = await jobsRepository.findOneOrFail({ id });
+
+    job.name = name;
+    job.description = description;
+    job.category_id = category_id;
+    job.supply_id = supply_id;
+
+    await jobsRepository.save(job);
+
+    return response
+        .status(201)
+        .json({ sucess: 'Procedimento atualizada com sucesso' });
 });
 
 export default jobsRouter;

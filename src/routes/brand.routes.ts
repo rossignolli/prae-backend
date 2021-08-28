@@ -29,7 +29,7 @@ brandRouter.get('/details/:id', async (request, response) => {
     return response.json(brand);
 });
 
-brandRouter.post('/:id', async (request, response) => {
+brandRouter.put('/:id', async (request, response) => {
     const { id } = request.params;
     const { name, description } = request.body;
 
@@ -45,7 +45,7 @@ brandRouter.post('/:id', async (request, response) => {
         .json({ sucess: 'Marca atualizada com sucesso' });
 });
 
-brandRouter.post('/delete/:id', async (request, response) => {
+brandRouter.delete('/:id', async (request, response) => {
     const { id } = request.params;
 
     const brandRepository = getRepository(Brand);
@@ -55,8 +55,6 @@ brandRouter.post('/delete/:id', async (request, response) => {
 });
 
 brandRouter.post('/', async (request, response) => {
-    await new Promise(r => setTimeout(r, 5000));
-
     try {
         const { name, description, technician_id } = request.body;
         console.log(name, description, technician_id);
