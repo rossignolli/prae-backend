@@ -14,6 +14,7 @@ interface RequestEquipamentCreation {
     critical: boolean;
     levelToManage: number;
     category_id: string;
+    brand_id: string;
     images: Array<ImagesType>;
 }
 
@@ -26,6 +27,7 @@ class CreateEquipamentService {
         critical,
         levelToManage,
         category_id,
+        brand_id,
         images,
     }: RequestEquipamentCreation): Promise<Equipament> {
         const equipamentsRepository = getRepository(Equipament);
@@ -38,6 +40,7 @@ class CreateEquipamentService {
             critical,
             images,
             levelToManage,
+            brand_id,
             category_id,
         });
 

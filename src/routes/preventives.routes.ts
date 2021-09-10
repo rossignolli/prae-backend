@@ -15,6 +15,7 @@ import { getRepository } from 'typeorm';
 import Preventive from '../models/Preventives';
 
 import ensureAuthenticated from '../middlewares/ensureAuthenticated';
+import JobExecution from '../models/JobExecution';
 
 const preventivesRouter = Router();
 
@@ -22,21 +23,52 @@ preventivesRouter.use(ensureAuthenticated);
 
 preventivesRouter.get('/', async (request, response) => {
     const preventivesRepository = getRepository(Preventive);
+    const preventives = await preventivesRepository.find();
+    return response.json(preventives);
+});
+
+preventivesRouter.get('/equipament/:id', async (request, response) => {
+    const { id } = request.params;
+    const preventivesRepository = getRepository(Preventive);
     const preventives = await preventivesRepository.find({
-        relations: ['jobs'],
+        where: { equipament_id: id },
     });
     return response.json(preventives);
 });
 
-preventivesRouter.post('/monitor', async (request, response) => {
-    try {
-        const { date, equipamentId } = request.body;
+preventivesRouter.get('/details/:id', async (request, response) => {
+    const { id } = request.params;
 
-        console.log('monitor triggered');
+    const preventivesRepository = getRepository(JobExecution);
+
+    const preventives = await preventivesRepository.find({
+        where: { preventive_id: id },
+    });
+
+    return response.json(preventives);
+});
+
+preventivesRouter.get('/details/:id', async (request, response) => {
+    const { id } = request.params;
+
+    const preventivesRepository = getRepository(JobExecution);
+
+    const preventives = await preventivesRepository.find({
+        where: { preventive_id: id },
+    });
+
+    return response.json(preventives);
+});
+
+preventivesRouter.post('/monitor/:id', async (request, response) => {
+    const { id } = request.params;
+
+    try {
+        const { date } = request.body;
 
         const createMonirtoringService = new StartMonitoringService();
         const equipament = await createMonirtoringService.execute({
-            id: equipamentId as string,
+            id,
             date,
         });
 
@@ -54,16 +86,16 @@ preventivesRouter.post('/monitor', async (request, response) => {
             `Equipament "${equipament.name}" is expiring in ${calcDate} or ${calcDateBusinessDays} in business Days`,
         );
 
-        return response.json(equipament);
+        return response.json({
+            sucess: `Equipament "${equipament.name}" is expiring in ${calcDate} or ${calcDateBusinessDays} in business Days`,
+        });
     } catch (err) {
-        return response.status(400).json({ error: err.message });
+        return response.status(400).json({ error: 'Algo deu errado' });
     }
 });
 
 preventivesRouter.post('/', async (request, response) => {
-    const { equipament_id, technician_id, jobs, isCorrective } = request.body;
-
-    // const parsedDate = parseISO(date);
+    const { equipament_id, technician_id, isCorrective } = request.body;
 
     // Transformação de dados para aplicação usar, pode ser deixado na rota
 
@@ -71,7 +103,6 @@ preventivesRouter.post('/', async (request, response) => {
     const appointment = await createAppointmentService.execute({
         equipament_id,
         technician_id,
-        jobs,
         isCorrective,
     });
     return response.json(appointment);

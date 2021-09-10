@@ -9,6 +9,7 @@ import {
     ManyToOne,
     OneToMany,
 } from 'typeorm';
+import Brand from './Brand';
 import Category from './Category';
 import Image from './Images';
 import User from './User';
@@ -57,6 +58,9 @@ class Equipament {
     @Column()
     category_id: string;
 
+    @Column()
+    brand_id: string;
+
     @OneToMany(() => Image, image => image.images, {
         cascade: ['insert', 'update'],
     })
@@ -72,6 +76,10 @@ class Equipament {
     @ManyToOne(() => Category, { eager: true })
     @JoinColumn({ name: 'category_id' })
     category: string;
+
+    @ManyToOne(() => Brand, { eager: true })
+    @JoinColumn({ name: 'brand_id' })
+    brand: string;
 
     expired: boolean;
 

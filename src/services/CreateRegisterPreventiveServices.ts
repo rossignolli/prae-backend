@@ -6,7 +6,7 @@ import { getCustomRepository, getRepository } from 'typeorm';
 interface RequestDTO {
     equipament_id: string;
     technician_id: string;
-    jobs: string;
+
     isCorrective: boolean;
 }
 
@@ -21,7 +21,6 @@ class CreateAppointmentService {
     public async execute({
         equipament_id,
         technician_id,
-        jobs,
         isCorrective,
     }: RequestDTO): Promise<Preventive> {
         const preventiveRepository = getRepository(Preventive);
@@ -29,7 +28,6 @@ class CreateAppointmentService {
         const preventive = preventiveRepository.create({
             equipament_id,
             technician_id,
-            jobs,
             isCorrective,
         });
 

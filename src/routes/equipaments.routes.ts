@@ -16,10 +16,11 @@ equipamentsRouter.use(ensureAuthenticated);
 
 equipamentsRouter.get('/details/:id', async (request, response) => {
     const { id } = request.params;
-
     const equipamentsRepository = getRepository(Equipament);
 
-    const equipament = await equipamentsRepository.findOneOrFail({ id });
+    const equipament = await equipamentsRepository.findOneOrFail(id, {
+        relations: ['images'],
+    });
 
     return response.json(equipament);
 });
