@@ -1,15 +1,10 @@
 /* eslint-disable import/extensions */
 import { Router } from 'express';
-
 import CreateBrandService from '../services/CreateBrandService';
-
 import { getRepository, Table } from 'typeorm';
 import Brand from '../models/Brand';
-
 import ensureAuthenticated from '../middlewares/ensureAuthenticated';
-
 const brandRouter = Router();
-
 brandRouter.use(ensureAuthenticated);
 
 brandRouter.get('/', async (request, response) => {
@@ -46,12 +41,15 @@ brandRouter.put('/:id', async (request, response) => {
 });
 
 brandRouter.delete('/:id', async (request, response) => {
-    const { id } = request.params;
+    try {
+        const { id } = request.params;
 
-    const brandRepository = getRepository(Brand);
-    await brandRepository.delete({ id });
-
-    return response.status(201).json({ ok: 'true.' });
+        const brandRepository = getRepository(Brand);
+        await brandRepository.delete({ id });
+        return response.status(201).json({ ok: 'true' });
+    } catch {
+        return response.status(400).json({ error: 'Marca em uso em uso' });
+    }
 });
 
 brandRouter.post('/', async (request, response) => {
@@ -68,7 +66,7 @@ brandRouter.post('/', async (request, response) => {
 
         return response.json(brand);
     } catch (err) {
-        return response.status(400).json({ error: err.message });
+        return response.status(400).json({ error: 'error' });
     }
 });
 

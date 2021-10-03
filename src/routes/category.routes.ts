@@ -20,17 +20,21 @@ categoryRouter.get('/', async (request, response) => {
 });
 
 categoryRouter.delete('/:id', async (request, response) => {
-    const { id } = request.params;
-    const categoryRepository = getRepository(Category);
-    const categoryToDelete = await categoryRepository.find({ id });
+    try {
+        const { id } = request.params;
+        const categoryRepository = getRepository(Category);
+        const categoryToDelete = await categoryRepository.find({ id });
 
-    if (!categoryToDelete.length) {
-        return response.status(200).send({ message: 'Category not Found' });
+        if (!categoryToDelete.length) {
+            return response.status(200).send({ message: 'Category not Found' });
+        }
+
+        await categoryRepository.remove(categoryToDelete);
+
+        return response.status(200).json({ ok: true });
+    } catch (err) {
+        return response.status(400).json({ error: 'Categoria em em uso' });
     }
-
-    categoryRepository.remove(categoryToDelete);
-
-    return response.status(200).json({ ok: true });
 });
 
 categoryRouter.post('/', async (request, response) => {
@@ -47,7 +51,7 @@ categoryRouter.post('/', async (request, response) => {
 
         return response.json(category);
     } catch (err) {
-        return response.status(400).json({ error: err.message });
+        return response.status(400).json({ error: 'error' });
     }
 });
 
@@ -60,7 +64,7 @@ categoryRouter.get('/details/:id', async (request, response) => {
 
         return response.json(category);
     } catch (err) {
-        return response.status(400).json({ error: err.message });
+        return response.status(400).json({ error: 'error' });
     }
 });
 
@@ -78,7 +82,7 @@ categoryRouter.put('/:id', async (request, response) => {
 
         return response.json(category);
     } catch (err) {
-        return response.status(400).json({ error: err.message });
+        return response.status(400).json({ error: 'error' });
     }
 });
 

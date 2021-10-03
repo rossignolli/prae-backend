@@ -15,6 +15,9 @@ export default class Image {
     @Column()
     path: string;
 
+    @Column()
+    equipament_id: string;
+
     @ManyToOne(() => Equipament, equipament => equipament.images)
     @JoinColumn({ name: 'equipament_id' })
     images: Equipament;

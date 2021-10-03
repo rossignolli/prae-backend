@@ -27,6 +27,10 @@ class AuthenticateUserService {
             throw new AppError('Incorrect email/password combination', 401);
         }
 
+        if (!user.isActive) {
+            throw new AppError('User is not activated', 401);
+        }
+
         const passwordMatched = await compare(password, user.password);
 
         if (!passwordMatched) {

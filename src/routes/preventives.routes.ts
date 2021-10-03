@@ -9,7 +9,7 @@ import {
     differenceInBusinessDays,
 } from 'date-fns';
 
-import CreateAppointmentService from '../services/CreateRegisterPreventiveServices';
+import CreateJobExecutionAndPreventive from '../services/CreateJobExecutionAndPreventive';
 import StartMonitoringService from '../services/StartMonitoringEquipamentService';
 import { getRepository } from 'typeorm';
 import Preventive from '../models/Preventives';
@@ -95,17 +95,23 @@ preventivesRouter.post('/monitor/:id', async (request, response) => {
 });
 
 preventivesRouter.post('/', async (request, response) => {
-    const { equipament_id, technician_id, isCorrective } = request.body;
+    const { equipament_id, technician_id, isCorrective, jobs } = request.body;
 
     // Transformação de dados para aplicação usar, pode ser deixado na rota
 
-    const createAppointmentService = new CreateAppointmentService();
-    const appointment = await createAppointmentService.execute({
+    // 1 => Gerar  uma Preventive ID
+    // 2 => Criar uma Job Execution com o Preventive ID
+    // 3 => Gerar uma Job Execution para cada item do array de jobs
+
+    const createJobExecutionAndPreventive = new CreateJobExecutionAndPreventive();
+    const JobExecution = await createJobExecutionAndPreventive.execute({
         equipament_id,
         technician_id,
         isCorrective,
+        jobs,
     });
-    return response.json(appointment);
+
+    return response.json(JobExecution);
 });
 
 export default preventivesRouter;

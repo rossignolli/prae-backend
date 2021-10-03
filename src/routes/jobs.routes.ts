@@ -6,6 +6,7 @@ import createExecutionServices from '../services/CreateExecutionService';
 import { getRepository } from 'typeorm';
 import ensureAuthenticated from '../middlewares/ensureAuthenticated';
 import Job from '../models/Job';
+import Category from '../models/Category';
 
 const jobsRouter = Router();
 
@@ -21,6 +22,13 @@ jobsRouter.get('/details/:id', async (request, response) => {
     const { id } = request.params;
     const job = getRepository(Job);
     const jobs = await job.findOneOrFail({ id });
+    return response.json(jobs);
+});
+
+jobsRouter.get('/details/categories/:id', async (request, response) => {
+    const { id } = request.params;
+    const job = getRepository(Job);
+    const jobs = await job.find({ where: { category_id: id } });
     return response.json(jobs);
 });
 
@@ -44,17 +52,19 @@ jobsRouter.post('/', async (request, response) => {
 
         return response.json(job);
     } catch (err) {
-        return response.status(400).json({ error: err.message });
+        return response.status(400).json({ error: 'error' });
     }
 });
 
 jobsRouter.delete('/:id', async (request, response) => {
-    const { id } = request.params;
-
-    const jobsRepository = getRepository(Job);
-    await jobsRepository.delete({ id });
-
-    return response.status(201).json({ ok: 'true.' });
+    try {
+        const { id } = request.params;
+        const jobsRepository = getRepository(Job);
+        await jobsRepository.delete({ id });
+        return response.status(201).json({ ok: 'true' });
+    } catch {
+        return response.status(400).json({ error: 'Procedimento em uso' });
+    }
 });
 
 jobsRouter.put('/:id', async (request, response) => {

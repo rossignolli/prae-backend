@@ -8,8 +8,10 @@ import {
     UpdateDateColumn,
     JoinColumn,
     OneToOne,
+    ManyToOne,
 } from 'typeorm';
 import Job from './Job';
+import User from './User';
 
 @Entity('supplies')
 class Supply {
@@ -30,6 +32,10 @@ class Supply {
 
     @Column()
     technician_id: string;
+
+    @ManyToOne(() => User, { eager: true })
+    @JoinColumn({ name: 'technician_id' })
+    technician: User;
 }
 
 export default Supply;

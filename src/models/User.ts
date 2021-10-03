@@ -26,6 +26,12 @@ class User {
     level: number;
 
     @Column()
+    isActive: boolean;
+
+    @Column()
+    verification: string;
+
+    @Column()
     avatar: string;
 
     @Column()

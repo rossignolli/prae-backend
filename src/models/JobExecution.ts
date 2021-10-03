@@ -35,10 +35,6 @@ class JobExecution {
     @JoinColumn({ name: 'preventive_id' })
     preventive: string;
 
-    @ManyToOne(() => Preventive, preventive => preventive.jobs)
-    @JoinColumn({ name: 'preventive_id' })
-    preventives: Preventive;
-
     @ManyToOne(() => Job, { eager: true })
     @JoinColumn({ name: 'job_id' })
     job: string;

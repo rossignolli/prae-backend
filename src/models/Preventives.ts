@@ -36,9 +36,6 @@ class Preventive {
     @CreateDateColumn()
     created_at: Date;
 
-    @OneToMany(() => JobExecution, JobExecution => JobExecution.preventives, {
-        cascade: ['insert', 'update'],
-    })
     @JoinColumn({ name: 'preventive_id' })
     jobs: JobExecution[];
 

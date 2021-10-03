@@ -19,7 +19,7 @@ export class CreateSuppliesTable1612212564395 implements MigrationInterface {
                     },
                     {
                         name: 'pricePerJob',
-                        type: 'money',
+                        type: 'numeric',
                     },
                     {
                         name: 'created_at',

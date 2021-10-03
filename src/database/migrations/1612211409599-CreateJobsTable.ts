@@ -25,6 +25,7 @@ export class CreateJobsTable1612211409599 implements MigrationInterface {
                     {
                         name: 'description',
                         type: 'varchar',
+                        isNullable: true,
                     },
                     {
                         name: 'created_at',
@@ -49,7 +50,7 @@ export class CreateJobsTable1612211409599 implements MigrationInterface {
                     {
                         name: 'supply_id',
                         type: 'uuid',
-                        isNullable: true,
+                        isNullable: false,
                     },
                 ],
             }),
