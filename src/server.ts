@@ -13,6 +13,8 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
+app.use('/favicon.ico', express.static('images/favicon.ico'));
+
 require('dotenv').config();
 
 const devConfig = {
