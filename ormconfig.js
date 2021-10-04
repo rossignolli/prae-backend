@@ -17,7 +17,6 @@ const distConfig = {
         migrationsDir: './src/database/migrations',
     },
     extra: {
-        ssl: true,
         rejectUnauthorized: false,
     },
 };
