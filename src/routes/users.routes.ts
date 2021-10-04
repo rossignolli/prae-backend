@@ -94,7 +94,7 @@ usersRouter.post('/recover', async (request, response) => {
         }
 
         return response.json(200);
-    } catch (err: any) {
+    } catch (err) {
         return response.status(400).json({ error: `${err.message}` });
     }
 });
@@ -146,7 +146,7 @@ usersRouter.post('/changepassword', async (request, response) => {
         }
 
         return response.json(200);
-    } catch (err: any) {
+    } catch (err) {
         return response.status(400).json({ error: `${err.message}` });
     }
 });

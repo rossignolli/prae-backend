@@ -8,13 +8,14 @@ import './database';
 import AppError from './errors/AppError';
 import Mail from './services/Mail';
 import { createConnection } from 'typeorm';
+
 const app = express();
 
 app.use(cors());
 app.use(express.json());
 require('dotenv').config();
 
-createConnection({
+const devConfig = {
     type: 'postgres',
     url: 'postgres://postgres:MYSECRETPASSWORD@localhost:5432/prae',
     migrations: ['./src/database/migrations/*.ts'],
@@ -22,7 +23,19 @@ createConnection({
     cli: {
         migrationsDir: './src/database/migrations',
     },
-})
+};
+
+const prodConfig = {
+    type: 'postgres',
+    url: process.env.DATABASE_URL,
+    migrations: ['./dist/database/migrations/*.js'],
+    entities: ['./dist/models/*.js'],
+    cli: {
+        migrationsDir: './dist/database/migrations',
+    },
+};
+
+createConnection()
     .then(() => {
         app.use(routes);
         dotenv.config();

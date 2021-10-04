@@ -4,7 +4,7 @@ import Brand from '../models/Brand';
 
 interface RequestBrandCreation {
     name: string;
-    description: number;
+    description: string;
     technician_id: string;
 }
 

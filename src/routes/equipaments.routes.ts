@@ -352,7 +352,7 @@ equipamentsRouter.get('/qrcode/:id', async (request, response) => {
 
         // close the stream
         pdfDoc.end();
-    } catch (err: any) {
+    } catch (err) {
         return response.status(400).json({ ok: true });
     }
 });

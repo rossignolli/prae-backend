@@ -48,7 +48,8 @@ suppliesRouter.post('/', async (request, response) => {
         });
 
         return response.json(supply);
-    } catch (err: any) {
+    } catch (err) {
+        //@ts-ignore
         return response.status(400).json({ error: err.message });
     }
 });
@@ -61,7 +62,8 @@ suppliesRouter.get('/details/:id', async (request, response) => {
         const supply = await ListSuppliesServices.execute({ id });
 
         return response.json(supply);
-    } catch (err: any) {
+    } catch (err) {
+        //@ts-ignore
         return response.status(400).json({ error: err.message });
     }
 });
@@ -215,7 +217,7 @@ suppliesRouter.get('/report', async (request, response) => {
 
         // close the stream
         pdfDoc.end();
-    } catch (err: any) {
+    } catch (err) {
         return response.status(400).json({ ok: true });
     }
 });
@@ -233,7 +235,8 @@ suppliesRouter.put('/:id', async (request, response) => {
         });
 
         return response.json(supply);
-    } catch (err: any) {
+    } catch (err) {
+        //@ts-ignore
         return response.status(400).json({ error: err.message });
     }
 });
