@@ -7,7 +7,10 @@ import {
     CreateDateColumn,
     UpdateDateColumn,
     DeleteDateColumn,
+    ManyToOne,
+    JoinColumn,
 } from 'typeorm';
+import User from './User';
 
 @Entity('categories')
 class Category {
@@ -31,6 +34,10 @@ class Category {
 
     @Column()
     technician_id: string;
+
+    @ManyToOne(() => User, { eager: true })
+    @JoinColumn({ name: 'technician_id' })
+    technician: User;
 }
 
 export default Category;
