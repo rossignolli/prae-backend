@@ -14,28 +14,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use('/favicon.ico', express.static('images/favicon.ico'));
-
 require('dotenv').config();
-
-const devConfig = {
-    type: 'postgres',
-    url: 'postgres://postgres:MYSECRETPASSWORD@localhost:5432/prae',
-    migrations: ['./src/database/migrations/*.ts'],
-    entities: ['./src/models/*.ts'],
-    cli: {
-        migrationsDir: './src/database/migrations',
-    },
-};
-
-const prodConfig = {
-    type: 'postgres',
-    url: process.env.DATABASE_URL,
-    migrations: ['./dist/database/migrations/*.js'],
-    entities: ['./dist/models/*.js'],
-    cli: {
-        migrationsDir: './dist/database/migrations',
-    },
-};
 
 createConnection()
     .then(() => {
