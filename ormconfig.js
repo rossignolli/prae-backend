@@ -16,7 +16,7 @@ const distConfig = {
     cli: {
         migrationsDir: './src/database/migrations',
     },
-    extra: { rejectUnauthorized: false },
+    extra: { ssl: true, rejectUnauthorized: false },
 };
 
 module.exports = process.env.NODE_ENV === 'production' ? distConfig : srcConfig;
