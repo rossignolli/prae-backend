@@ -35,7 +35,9 @@ class UpdateUserAvatarService {
             );
         }
 
-        const fileToDlete = user.avatar.split('/').pop();
+        const fileToDlete = user.avatar
+            ? user.avatar.split('/').pop()
+            : 'noAvatar';
 
         if (avatarFilename !== null && fileToDlete) {
             const s3 = new aws.S3();
