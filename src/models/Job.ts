@@ -45,7 +45,7 @@ class Job {
 
     @ManyToOne(() => User, { eager: true })
     @JoinColumn({ name: 'technician_id' })
-    user: string;
+    technician: User;
 
     @ManyToOne(() => Supply, { eager: true })
     @JoinColumn({ name: 'supply_id' })

@@ -11,10 +11,10 @@ const srcConfig = {
 const distConfig = {
     type: 'postgres',
     url: process.env.DATABASE_URL,
-    migrations: ['./src/database/migrations/*.js'],
-    entities: ['./src/models/*.js'],
+    migrations: ['./dist/database/migrations/*.js'],
+    entities: ['./dist/models/*.js'],
     cli: {
-        migrationsDir: './src/database/migrations',
+        migrationsDir: './dist/database/migrations',
     },
     extra: {
         ssl: { rejectUnauthorized: false },
