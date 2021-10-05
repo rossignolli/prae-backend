@@ -31,25 +31,17 @@ usersRouter.post('/', async (request, response) => {
 
         const user = await createUser.execute({ name, email, password });
 
-        // const responseUser = {
-        //     name: user.name,
-        //     email: user.email,
-        //     id: user.id,
-        //     created_at: user.created_at,
-        //     updated_at: user.updated_at,
-        // };
-
         if (api_key && DOMAIN) {
             const mg = mailgun({ apiKey: api_key, domain: DOMAIN });
 
             const data = {
-                from: 'Prae - <vitorrossignolli@gmail.com>',
+                from: 'Prae - Confirmação de E-mail <no-reply@mg.vigarani.dev>',
                 to: user.email,
                 subject: 'Prae -  Email de verificação',
                 html: `
                 <h1>Email de confirmação - Prae</h1>
                 <p>Você está recebendo esse email devido ao cadastro na plataforma prae</p>
-                Para confirmar o seu cadastro <a href="${process.env.BASE_URL}/sessions/confirmation/${user.verification}">Clique aqui</a>
+                Para confirmar o seu cadastro <a href="${process.env.BASE_URL_FRONT}/accout/confirmation/${user.verification}">Clique aqui</a>
             `,
             };
 
@@ -60,7 +52,55 @@ usersRouter.post('/', async (request, response) => {
 
         return response.json({ sucess: 'Verification email sent' });
     } catch (err) {
-        return response.status(400).json({ error: 'something went wrong' });
+        //@ts-ignore
+        return response.status(400).json({ error: err.message });
+    }
+});
+
+usersRouter.post('/resend', async (request, response) => {
+    try {
+        const { email } = request.body;
+
+        const usersRepository = getRepository(User);
+
+        const checkUserExists = await usersRepository.findOne({
+            where: { email },
+        });
+
+        if (!checkUserExists) {
+            throw new Error('User does not exist');
+        }
+
+        if (checkUserExists.isActive) {
+            throw new Error('This user is already activated');
+        }
+
+        const api_key = process.env.MAILGUNGUN_KEY;
+        const DOMAIN = process.env.MAILGUNDOMAIN;
+
+        if (api_key && DOMAIN) {
+            const mg = mailgun({ apiKey: api_key, domain: DOMAIN });
+
+            const data = {
+                from: 'Prae - Confirmação de E-mail <no-reply@mg.vigarani.dev>',
+                to: checkUserExists.email,
+                subject: 'Prae -  Email de verificação',
+                html: `
+                <h1>Email de confirmação - Prae</h1>
+                <p>Você está recebendo esse email devido ao cadastro na plataforma prae</p>
+                Para confirmar o seu cadastro <a href="${process.env.BASE_URL_FRONT}/accout/confirmation/${checkUserExists.verification}">Clique aqui</a>
+            `,
+            };
+
+            mg.messages().send(data, function (error, body) {
+                console.log(body);
+            });
+        }
+
+        return response.json({ sucess: 'Verification email sent' });
+    } catch (err) {
+        //@ts-ignore
+        return response.status(400).json({ error: err.message });
     }
 });
 
@@ -95,6 +135,7 @@ usersRouter.post('/recover', async (request, response) => {
 
         return response.json(200);
     } catch (err) {
+        //@ts-ignore
         return response.status(400).json({ error: `${err.message}` });
     }
 });
@@ -147,6 +188,7 @@ usersRouter.post('/changepassword', async (request, response) => {
 
         return response.json(200);
     } catch (err) {
+        //@ts-ignore
         return response.status(400).json({ error: `${err.message}` });
     }
 });

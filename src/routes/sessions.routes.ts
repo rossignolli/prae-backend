@@ -10,15 +10,20 @@ import User from '../models/User';
 import AppError from '../errors/AppError';
 
 sessionsRouter.post('/', async (request, response) => {
-    const { email, password } = request.body;
+    try {
+        const { email, password } = request.body;
 
-    const authUser = new AuthenticateUserService();
+        const authUser = new AuthenticateUserService();
 
-    const { user, token } = await authUser.execute({ email, password });
+        const { user, token } = await authUser.execute({ email, password });
+        //@ts-ignore
+        delete user.password;
 
-    delete user.password;
-
-    return response.json({ user, token });
+        return response.json({ user, token });
+    } catch (err) {
+        //@ts-ignore
+        return response.status(401).json({ error: `${err.message}` });
+    }
 });
 
 sessionsRouter.get('/confirmation/:code', async (request, response) => {
