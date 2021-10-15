@@ -1,7 +1,7 @@
-import { startOfHour, parseISO, differenceInDays, addDays } from 'date-fns';
+import { differenceInDays, addDays } from 'date-fns';
 import Preventive from '../models/Preventives';
-import AppointmentsRepository from '../repositories/AppointmentsRepository';
-import { getCustomRepository, getRepository } from 'typeorm';
+
+import { getRepository } from 'typeorm';
 
 interface RequestDTO {
     equipament_id: string;
