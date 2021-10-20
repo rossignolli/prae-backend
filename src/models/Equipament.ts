@@ -71,7 +71,7 @@ class Equipament {
 
     @ManyToOne(() => User, { eager: true })
     @JoinColumn({ name: 'technician_id' })
-    technician: string;
+    technician: User;
 
     @ManyToOne(() => Category, { eager: true })
     @JoinColumn({ name: 'category_id' })
@@ -79,7 +79,7 @@ class Equipament {
 
     @ManyToOne(() => Brand, { eager: true })
     @JoinColumn({ name: 'brand_id' })
-    brand: string;
+    brand: Brand;
 
     expired: boolean;
 
