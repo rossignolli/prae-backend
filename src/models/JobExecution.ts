@@ -37,7 +37,7 @@ class JobExecution {
 
     @ManyToOne(() => Job, { eager: true })
     @JoinColumn({ name: 'job_id' })
-    job: string;
+    job: Job;
 }
 
 export default JobExecution;

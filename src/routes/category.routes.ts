@@ -142,7 +142,7 @@ categoryRouter.get('/report', async (request, response) => {
                     alignment: 'center',
                 },
                 {
-                    text: `Relatório de Marcas  `,
+                    text: `Relatório de Categorias  `,
                     alignment: 'center',
                     style: 'header',
                     margin: [0, 20, 0, 0],

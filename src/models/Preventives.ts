@@ -29,9 +29,9 @@ class Preventive {
     @Column()
     technician_id: string;
 
-    @ManyToOne(() => User)
+    @ManyToOne(() => User, { eager: true })
     @JoinColumn({ name: 'technician_id' })
-    technician: string;
+    technician: User;
 
     @CreateDateColumn()
     created_at: Date;

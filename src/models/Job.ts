@@ -49,7 +49,7 @@ class Job {
 
     @ManyToOne(() => Supply, { eager: true })
     @JoinColumn({ name: 'supply_id' })
-    supply: string;
+    supply: Supply;
 }
 
 export default Job;
