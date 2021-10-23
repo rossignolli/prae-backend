@@ -22,7 +22,7 @@ class Supply {
     name: string;
 
     @Column()
-    pricePerJob: number;
+    pricePerJob: string;
 
     @CreateDateColumn()
     created_at: Date;

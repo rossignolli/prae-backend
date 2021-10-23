@@ -287,42 +287,6 @@ brandRouter.get('/report', async (request, response) => {
                         ],
                     },
                 },
-                {
-                    text: `Marcas menos confiáveis`,
-                    alignment: 'center',
-                    style: 'header',
-                    margin: [0, 20, 0, 0],
-                },
-                {
-                    text:
-                        'Contagem em que equipamentos dessa marca passaram por procedimentos corretivos.',
-                    alignment: 'center',
-                    margin: [0, 10, 0, 20],
-                },
-
-                {
-                    style: 'tableExample',
-                    table: {
-                        widths: ['*', '*'],
-                        body: [
-                            [
-                                {
-                                    text: 'Marca',
-                                    alignment: 'center',
-                                    bold: true,
-                                    margin: [0, 5, 0, 5],
-                                },
-                                {
-                                    text: 'Contagem',
-                                    alignment: 'center',
-                                    bold: true,
-                                    margin: [0, 5, 0, 5],
-                                },
-                            ],
-                            ...body3,
-                        ],
-                    },
-                },
             ],
             styles: {
                 header: {

@@ -75,7 +75,7 @@ class Equipament {
 
     @ManyToOne(() => Category, { eager: true })
     @JoinColumn({ name: 'category_id' })
-    category: string;
+    category: Category;
 
     @ManyToOne(() => Brand, { eager: true })
     @JoinColumn({ name: 'brand_id' })

@@ -162,8 +162,9 @@ preventivesRouter.get('/report/:id', async (request, response) => {
         });
 
         const total = jobs
-            ?.map(item => item.job.supply.pricePerJob)
-            .reduce((prev, next) => prev + next);
+            ?.map(item => parseFloat(item.job.supply.pricePerJob))
+            .reduce((prev, next) => prev + next)
+            ?.toFixed(2);
 
         const fonts = {
             Helvetica: {
