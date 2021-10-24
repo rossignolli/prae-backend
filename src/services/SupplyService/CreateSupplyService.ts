@@ -19,7 +19,7 @@ class CreateSupplytService {
         if (pricePerJob <= 0) {
             throw new AppError('Price per Job can not be negative or zero');
         }
-
+        //@ts-ignore
         const supply = supplysRepository.create({
             name,
             technician_id,
