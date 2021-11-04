@@ -1,7 +1,6 @@
 /* eslint-disable import/extensions */
 import { Router } from 'express';
 import CreateJobsService from '../services/CreateJobervice';
-import createExecutionServices from '../services/CreateExecutionService';
 import { TDocumentDefinitions } from 'pdfmake/interfaces';
 import PDFPrinter from 'pdfmake';
 import { getRepository } from 'typeorm';
