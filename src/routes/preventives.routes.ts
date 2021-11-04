@@ -49,18 +49,6 @@ preventivesRouter.get('/details/:id', async (request, response) => {
     return response.json(preventives);
 });
 
-preventivesRouter.get('/details/:id', async (request, response) => {
-    const { id } = request.params;
-
-    const preventivesRepository = getRepository(JobExecution);
-
-    const preventives = await preventivesRepository.find({
-        where: { preventive_id: id },
-    });
-
-    return response.json(preventives);
-});
-
 preventivesRouter.post('/monitor/:id', async (request, response) => {
     const { id } = request.params;
 
@@ -142,18 +130,18 @@ preventivesRouter.get('/report/:id', async (request, response) => {
             });
 
             rows.push({
-                text: brand.job.name,
+                text: brand.job_name,
                 alignment: 'center',
                 margin: [0, 5, 0, 5],
             });
             rows.push({
-                text: brand.job.supply.name,
+                text: brand.supply_name,
                 alignment: 'center',
                 margin: [0, 5, 0, 5],
             });
 
             rows.push({
-                text: `R$ ${brand.job.supply.pricePerJob}`,
+                text: `R$ ${brand.supply_price}`,
                 alignment: 'center',
                 margin: [0, 5, 0, 5],
             });
@@ -161,10 +149,11 @@ preventivesRouter.get('/report/:id', async (request, response) => {
             body.push(rows);
         });
 
-        const total = jobs
-            ?.map(item => parseFloat(item.job.supply.pricePerJob))
-            .reduce((prev, next) => prev + next)
-            ?.toFixed(2);
+        let total;
+
+        if (preventiveReport?.total_price) {
+            total = parseFloat(preventiveReport.total_price).toFixed(2);
+        }
 
         const fonts = {
             Helvetica: {
@@ -176,12 +165,7 @@ preventivesRouter.get('/report/:id', async (request, response) => {
         };
 
         const printer = new PDFPrinter(fonts);
-        const dateOptions = {
-            weekday: 'long',
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric',
-        };
+
         const today = new Date();
 
         const docDef: TDocumentDefinitions = {

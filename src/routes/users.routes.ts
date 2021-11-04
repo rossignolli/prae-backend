@@ -196,7 +196,9 @@ usersRouter.post('/changepassword', async (request, response) => {
 
 usersRouter.get('/', async (request, response) => {
     const userRepository = getRepository(User);
-    const users = await userRepository.find();
+    const users = await userRepository.find({
+        order: { isActive: 'DESC', name: `ASC` },
+    });
     return response.json(users);
 });
 

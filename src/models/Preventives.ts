@@ -39,14 +39,11 @@ class Preventive {
     @JoinColumn({ name: 'preventive_id' })
     jobs: JobExecution[];
 
-    // @OneToMany(() => Job, job => job.preventives, {
-    //     cascade: ['insert', 'update'],
-    // })
-    // @JoinColumn({ name: 'preventive_id' })
-    // jobs: Job[];
-
     @Column()
     isCorrective: boolean;
+
+    @Column()
+    total_price: string;
 }
 
 export default Preventive;

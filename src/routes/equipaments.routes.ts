@@ -43,6 +43,7 @@ equipamentsRouter.get('/details/:id', async (request, response) => {
 
     const findAllMaintenances = await preventiveRepository.find({
         where: { equipament_id: id },
+        order: { created_at: 'DESC' },
     });
 
     const lastCorrectivePreventiveDate = lastCorrective?.created_at;
@@ -294,8 +295,6 @@ equipamentsRouter.get('/home', async (request, response) => {
 
     const expiringPercentagen = expiringEquipaments.length / equipaments.length;
     console.log(notBeingMonitored.length);
-
-    console.log(`expirando:`, expiringEquipaments.length);
 
     const operationalPercentagen =
         operationalEquipaments.length / equipaments.length;

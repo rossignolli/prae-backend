@@ -20,9 +20,6 @@ class JobExecution {
     preventive_id: string;
 
     @Column()
-    job_id: string;
-
-    @Column()
     technician_id: string;
 
     @CreateDateColumn()
@@ -35,9 +32,14 @@ class JobExecution {
     @JoinColumn({ name: 'preventive_id' })
     preventive: string;
 
-    @ManyToOne(() => Job, { eager: true })
-    @JoinColumn({ name: 'job_id' })
-    job: Job;
+    @Column()
+    job_name: string;
+
+    @Column()
+    supply_name: string;
+
+    @Column()
+    supply_price: string;
 }
 
 export default JobExecution;

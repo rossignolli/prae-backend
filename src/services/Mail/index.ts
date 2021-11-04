@@ -28,7 +28,7 @@ class MailingMonitor {
 
             if (api_key && DOMAIN) {
                 activedUsers.map(user => {});
-                console.log('job executed');
+
                 const mg = mailgun({ apiKey: api_key, domain: DOMAIN });
 
                 const bodyHtmlEmail = `

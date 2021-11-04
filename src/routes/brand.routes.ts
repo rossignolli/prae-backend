@@ -68,7 +68,6 @@ brandRouter.delete('/:id', async (request, response) => {
 brandRouter.post('/', async (request, response) => {
     try {
         const { name, description, technician_id } = request.body;
-        console.log(name, description, technician_id);
 
         const CreateBrandServices = new CreateBrandService();
         const brand = await CreateBrandServices.execute({
@@ -116,8 +115,6 @@ brandRouter.get('/report', async (request, response) => {
         GROUP BY b."name", e."name"
         ORDER BY COUNT(*) DESC;
         `);
-
-        console.log(rawData2);
 
         rawData2.forEach((brand, i) => {
             const rows = new Array();
