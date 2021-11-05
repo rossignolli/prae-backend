@@ -18,6 +18,7 @@ class CreateJobtService {
         supply_id,
     }: RequestJobCreation): Promise<Job> {
         const jobsRepository = getRepository(Job);
+        //@ts-ignore
         const job = jobsRepository.create({
             name,
             description,
