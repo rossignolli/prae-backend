@@ -11,6 +11,8 @@ import { TDocumentDefinitions } from 'pdfmake/interfaces';
 import ensureAuthenticated from '../middlewares/ensureAuthenticated';
 import fs from 'fs';
 import JobExecution from '../models/JobExecution';
+import Job from '../models/Job';
+import AppError from '../errors/AppError';
 const suppliesRouter = Router();
 
 suppliesRouter.use(ensureAuthenticated);
@@ -27,12 +29,22 @@ suppliesRouter.delete('/:id', async (request, response) => {
         const SupplyRepository = getRepository(Supply);
         const SupplyToDelete = await SupplyRepository.find({ id });
         if (!SupplyToDelete.length) {
-            return response.status(200).send({ message: 'Supply not Found' });
+            throw new AppError('Supply not found', 400);
         }
+        const jobsRepository = getRepository(Job);
+
+        const isSupplyBeenUsed = await jobsRepository.find({ supply_id: id });
+
+        if (isSupplyBeenUsed.length > 0) {
+            throw new AppError('Supply in Use.', 401);
+        }
+
         await SupplyRepository.remove(SupplyToDelete);
+
         return response.status(200).json({ ok: true });
-    } catch {
-        return response.status(400).json({ error: 'Suprimento em uso' });
+    } catch (err) {
+        //@ts-ignore
+        return response.status(err.statusCode).json({ error: err.message });
     }
 });
 
@@ -90,7 +102,10 @@ suppliesRouter.get('/report', async (request, response) => {
             });
 
             rows.push({
-                text: `R$ ${supply.pricePerJob}`,
+                text: `R$ ${parseFloat(supply.pricePerJob)
+                    .toFixed(2)
+                    .toString()
+                    .replace('.', ',')}`,
                 alignment: 'left',
                 margin: [0, 5, 0, 5],
             });
@@ -203,8 +218,6 @@ suppliesRouter.get('/report', async (request, response) => {
 
         const pdfDoc = printer.createPdfKitDocument(docDef);
 
-        // pdfDoc.pipe(fs.createWriteStream('Report.pdf'));
-
         const chunks: any = [];
 
         pdfDoc.on('data', chunk => {
@@ -215,10 +228,10 @@ suppliesRouter.get('/report', async (request, response) => {
             return response.end(result);
         });
 
-        // close the stream
         pdfDoc.end();
     } catch (err) {
-        return response.status(400).json({ ok: true });
+        //@ts-ignore
+        return response.status(400).json({ err: err.message });
     }
 });
 

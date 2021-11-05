@@ -9,6 +9,9 @@ import PDFPrinter from 'pdfmake';
 import { getManager, getRepository } from 'typeorm';
 import ensureAuthenticated from '../middlewares/ensureAuthenticated';
 import Category from '../models/Category';
+import Equipament from '../models/Equipament';
+import Job from '../models/Job';
+import AppError from '../errors/AppError';
 
 const categoryRouter = Router();
 
@@ -25,16 +28,36 @@ categoryRouter.delete('/:id', async (request, response) => {
         const { id } = request.params;
         const categoryRepository = getRepository(Category);
         const categoryToDelete = await categoryRepository.find({ id });
-
         if (!categoryToDelete.length) {
-            return response.status(200).send({ message: 'Category not Found' });
+            throw new AppError('Category not found', 400);
+        }
+        const equipamentRepository = getRepository(Equipament);
+        const jobRepository = getRepository(Job);
+
+        const isCategoryIsInUsedOnAnyJob = await jobRepository.find({
+            category_id: id,
+        });
+
+        if (isCategoryIsInUsedOnAnyJob.length > 0) {
+            throw new AppError('Category in Use.', 401);
+        }
+
+        const isCategoryIsInUsedOnAnyEquipament = await equipamentRepository.find(
+            {
+                category_id: id,
+            },
+        );
+
+        if (isCategoryIsInUsedOnAnyEquipament.length > 0) {
+            throw new AppError('Category in Use.', 401);
         }
 
         await categoryRepository.remove(categoryToDelete);
 
         return response.status(200).json({ ok: true });
     } catch (err) {
-        return response.status(400).json({ error: 'Categoria em em uso' });
+        //@ts-ignore
+        return response.status(err.statusCode).json({ error: err.message });
     }
 });
 

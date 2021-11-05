@@ -6,6 +6,8 @@ import Brand from '../models/Brand';
 import ensureAuthenticated from '../middlewares/ensureAuthenticated';
 import { TDocumentDefinitions } from 'pdfmake/interfaces';
 import PDFPrinter from 'pdfmake';
+import AppError from '../errors/AppError';
+import Equipament from '../models/Equipament';
 
 interface MostUsedData {
     name: string;
@@ -56,12 +58,29 @@ brandRouter.put('/:id', async (request, response) => {
 brandRouter.delete('/:id', async (request, response) => {
     try {
         const { id } = request.params;
-
         const brandRepository = getRepository(Brand);
+        const brandToDelete = await brandRepository.find({ id });
+
+        if (!brandToDelete.length) {
+            throw new AppError('Brand not found', 400);
+        }
+
+        const equipamentRepository = getRepository(Equipament);
+
+        const isBrandUsedOnAnyEquipament = await equipamentRepository.find({
+            brand_id: id,
+        });
+
+        if (isBrandUsedOnAnyEquipament.length > 0) {
+            throw new AppError('Brand in Use.', 401);
+        }
+
         await brandRepository.delete({ id });
-        return response.status(201).json({ ok: 'true' });
-    } catch {
-        return response.status(400).json({ error: 'Marca em uso em uso' });
+
+        return response.status(200).json({ ok: true });
+    } catch (err) {
+        //@ts-ignore
+        return response.status(err.statusCode).json({ error: err.message });
     }
 });
 

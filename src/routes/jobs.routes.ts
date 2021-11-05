@@ -6,6 +6,8 @@ import PDFPrinter from 'pdfmake';
 import { getRepository } from 'typeorm';
 import ensureAuthenticated from '../middlewares/ensureAuthenticated';
 import Job from '../models/Job';
+import AppError from '../errors/AppError';
+import UpdateJobService from '../services/UpdateJobService';
 
 const jobsRouter = Router();
 
@@ -217,22 +219,23 @@ jobsRouter.delete('/:id', async (request, response) => {
 });
 
 jobsRouter.put('/:id', async (request, response) => {
-    const { id } = request.params;
-    const { name, description, category_id, supply_id } = request.body;
+    try {
+        const { id } = request.params;
+        const { name, category_id, supply_id } = request.body;
 
-    const jobsRepository = getRepository(Job);
-    const job = await jobsRepository.findOneOrFail({ id });
+        const UpdateJobServices = new UpdateJobService();
+        const job = await UpdateJobServices.execute({
+            id,
+            name,
+            category_id,
+            supply_id,
+        });
 
-    job.name = name;
-    job.description = description;
-    job.category_id = category_id;
-    job.supply_id = supply_id;
-
-    await jobsRepository.save(job);
-
-    return response
-        .status(201)
-        .json({ sucess: 'Procedimento atualizada com sucesso' });
+        return response.json(job);
+    } catch (err) {
+        //@ts-ignore
+        return response.status(400).json({ error: err.message });
+    }
 });
 
 export default jobsRouter;

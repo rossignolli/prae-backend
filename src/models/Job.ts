@@ -21,9 +21,6 @@ class Job {
     @Column()
     name: string;
 
-    @Column()
-    description: string;
-
     @CreateDateColumn()
     created_at: Date;
 
@@ -41,7 +38,7 @@ class Job {
 
     @ManyToOne(() => Category, { eager: true })
     @JoinColumn({ name: 'category_id' })
-    category: string;
+    category: Category;
 
     @ManyToOne(() => User, { eager: true })
     @JoinColumn({ name: 'technician_id' })

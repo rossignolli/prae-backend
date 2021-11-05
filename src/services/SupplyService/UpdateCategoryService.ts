@@ -25,7 +25,9 @@ class UpdateSupplytService {
 
         supply.name = name;
         //@ts-ignore
-        supply.pricePerJob = pricePerJob;
+        supply.pricePerJob = parseFloat(
+            pricePerJob.toString().replace(',', '.'),
+        );
 
         const updatedCategory = await suppliesRepository.save(supply);
 
