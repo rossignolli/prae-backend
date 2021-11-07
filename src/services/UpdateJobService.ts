@@ -25,11 +25,11 @@ class UpdateJobService {
             new AppError('Supply not founded.');
         }
 
-        job.name = name;
-        job.category_id = category_id;
-        job.supply_id = supply_id;
+        await jobRepository.update({ id }, { category_id, supply_id, name });
 
-        const updatedJob = await jobRepository.save(job);
+        const updatedJob = await jobRepository.findOneOrFail({
+            id,
+        });
 
         return updatedJob;
     }

@@ -3,6 +3,7 @@ import { Router } from 'express';
 import Equipament from '../models/Equipament';
 import { getRepository } from 'typeorm';
 import CreateEquipamentService from '../services/CreateEquipamentService';
+import UpdateEquipamentService from '../services/UpdateEquipamentService';
 import ensureAuthenticated from '../middlewares/ensureAuthenticated';
 import { differenceInDays, isPast, isFuture } from 'date-fns';
 import QRCode from 'qrcode';
@@ -125,10 +126,10 @@ equipamentsRouter.delete('/:id', async (request, response) => {
         await imagesRepository.delete({ equipament_id: id });
         await equipamentsRepository.delete({ id });
 
-        return response.status(201).json({ ok: 'true' });
+        return response.status(200).json({ ok: 'true' });
     } catch (err) {
         //@ts-ignore
-        return response.status(400).json({ error: err.message });
+        return response.status(err.StatusCode).json({ error: err.message });
     }
 });
 
@@ -315,8 +316,6 @@ equipamentsRouter.get('/home', async (request, response) => {
     };
 
     const entityManager = getManager();
-    const findedUser = await entityManager.findOne(User);
-    const rawData = await entityManager.query(`SELECT * FROM EQUIPAMENTS`);
 
     return response.json(homeData);
 });
@@ -328,6 +327,8 @@ equipamentsRouter.post(
         const { data } = request.body;
 
         const requestImages = (request.files as unknown) as AWSFiles[];
+
+        console.log(requestImages);
 
         const images = requestImages.map(image => {
             return { path: image.location };
@@ -342,6 +343,42 @@ equipamentsRouter.post(
         const equipament = await createEquipamentService.execute(
             parsedEquipament,
         );
+
+        return response.json(equipament);
+    },
+);
+
+equipamentsRouter.put(
+    '/:id',
+    upload.array('newImages'),
+    async (request, response) => {
+        const { data } = request.body;
+        const { id } = request.params;
+
+        const requestImages = (request.files as unknown) as AWSFiles[];
+
+        console.log(requestImages);
+
+        const images = requestImages.map(image => {
+            return { path: image.location };
+        });
+
+        const parsedEquipament = JSON.parse(data);
+
+        parsedEquipament.images = images;
+
+        const updateEquipamentService = new UpdateEquipamentService();
+
+        const equipament = await updateEquipamentService.execute({
+            id,
+            name: parsedEquipament.name,
+            description: parsedEquipament.description,
+            brand_id: parsedEquipament.brand,
+            category_id: parsedEquipament.category,
+            date: parsedEquipament.newExpiratiaonDate,
+            images: parsedEquipament.images,
+            deletedImages: parsedEquipament.deletedImagens,
+        });
 
         return response.json(equipament);
     },

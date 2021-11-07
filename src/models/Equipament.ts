@@ -67,8 +67,6 @@ class Equipament {
     @JoinColumn({ name: 'equipament_id' })
     images: Image[];
 
-    /// relação de 1 equipamento poder ter 1 técnico
-
     @ManyToOne(() => User, { eager: true })
     @JoinColumn({ name: 'technician_id' })
     technician: User;
@@ -77,7 +75,7 @@ class Equipament {
     @JoinColumn({ name: 'category_id' })
     category: Category;
 
-    @ManyToOne(() => Brand, { eager: true })
+    @ManyToOne(() => Brand, brand => brand.id, { eager: true })
     @JoinColumn({ name: 'brand_id' })
     brand: Brand;
 

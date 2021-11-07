@@ -1,12 +1,6 @@
 import { getRepository } from 'typeorm';
 import User from '../models/User';
-import path from 'path';
-import fs from 'fs';
 import aws from 'aws-sdk';
-
-import uploadConfig from '../config/upload';
-
-import { hash } from 'bcryptjs';
 
 interface RequestUserCreation {
     user_id: string;

@@ -24,4 +24,4 @@ const distConfig = {
     },
 };
 
-module.exports = srcConfig;
+module.exports = process.env.NODE_ENV === 'production' ? distConfig : srcConfig;
