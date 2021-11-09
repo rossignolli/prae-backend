@@ -82,6 +82,19 @@ class UpdateEquipamentService {
 
         await equipamentRepository.save(equipament);
 
+        if (equipament.monitor) {
+            await equipamentRepository.update(
+                { id },
+                {
+                    category_id,
+                    brand_id,
+                    name,
+                    description,
+                    dateOfExpiration: date,
+                },
+            );
+        }
+
         await equipamentRepository.update(
             { id },
             {
@@ -89,7 +102,6 @@ class UpdateEquipamentService {
                 brand_id,
                 name,
                 description,
-                dateOfExpiration: date,
             },
         );
 

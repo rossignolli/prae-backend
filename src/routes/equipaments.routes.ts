@@ -357,8 +357,6 @@ equipamentsRouter.put(
 
         const requestImages = (request.files as unknown) as AWSFiles[];
 
-        console.log(requestImages);
-
         const images = requestImages.map(image => {
             return { path: image.location };
         });

@@ -166,7 +166,7 @@ suppliesRouter.get('/report', async (request, response) => {
                 {
                     style: 'tableExample',
                     table: {
-                        widths: [100, '*', 50, '*'],
+                        widths: [100, '*', 100, '*'],
                         body: [
                             [
                                 {
