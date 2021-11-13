@@ -141,7 +141,10 @@ preventivesRouter.get('/report/:id', async (request, response) => {
             });
 
             rows.push({
-                text: `R$ ${brand.supply_price}`,
+                text: `R$ ${parseFloat(brand.supply_price)
+                    .toFixed(2)
+                    .toString()
+                    .replace('.', ',')}`,
                 alignment: 'center',
                 margin: [0, 5, 0, 5],
             });
@@ -170,6 +173,13 @@ preventivesRouter.get('/report/:id', async (request, response) => {
 
         const docDef: TDocumentDefinitions = {
             defaultStyle: { font: 'Helvetica' },
+            info: {
+                title: `Relatório de Preventiva - ${
+                    preventiveReport?.equipament.name
+                } Ação: ${preventiveReport?.id} ${today.toLocaleString(
+                    'pt-BR',
+                )}`,
+            },
             content: [
                 {
                     image: 'Praelogo',
