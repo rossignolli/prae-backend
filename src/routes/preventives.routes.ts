@@ -152,10 +152,13 @@ preventivesRouter.get('/report/:id', async (request, response) => {
             body.push(rows);
         });
 
-        let total;
+        let total = '';
 
         if (preventiveReport?.total_price) {
-            total = parseFloat(preventiveReport.total_price).toFixed(2);
+            total = jobs
+                ?.map(item => parseFloat(item.supply_price))
+                .reduce((prev, next) => prev + next)
+                ?.toFixed(2);
         }
 
         const fonts = {
@@ -294,7 +297,10 @@ preventivesRouter.get('/report/:id', async (request, response) => {
                     margin: [0, 10, 0, 0],
                 },
                 {
-                    text: `R$ ${total}`,
+                    text: `R$ ${parseFloat(total)
+                        .toFixed(2)
+                        .toString()
+                        .replace('.', ',')}`,
                     alignment: 'right',
                     style: 'subtitle',
                     margin: [0, 5, 0, 0],
