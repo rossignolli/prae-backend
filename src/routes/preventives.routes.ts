@@ -197,6 +197,12 @@ preventivesRouter.get('/report/:id', async (request, response) => {
                     margin: [0, 20, 0, 0],
                 },
                 {
+                    text: `${preventiveReport?.equipament.name}`,
+                    alignment: 'center',
+                    style: 'titlePurple',
+                    margin: [0, 20, 0, 0],
+                },
+                {
                     text: `${today.toLocaleString('pt-BR')}`,
                     alignment: 'center',
                     style: 'subtitle',
@@ -327,6 +333,11 @@ preventivesRouter.get('/report/:id', async (request, response) => {
                     fontSize: 16,
                     bold: true,
                     color: 'gray',
+                },
+                titlePurple: {
+                    color: '#8257e5',
+                    bold: true,
+                    fontSize: 20,
                 },
             },
             images: {
